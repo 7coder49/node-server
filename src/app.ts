@@ -6,6 +6,7 @@ import userRouter from './routes/users.routes.ts'
 const app = express();
 
 app.use(cors());
+app.use(express.json())
 app.use(userRouter)
 
 app.get("/", (req, res)=>{
