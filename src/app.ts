@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import pool from './config/db.ts';
 import userRouter from './routes/users.routes.ts'
+import redisClient from './config/redis.ts';
 
 const app = express();
 
@@ -20,7 +21,10 @@ app.get("/", (req, res)=>{
 
 const startServer = async()=>{
     try{
-        await pool.connect()
+        await Promise.all([
+            pool.connect(),
+            redisClient.connect()
+        ])
 
         app.listen(3000, ()=>{
             console.log(`Server is listening on port 3000`);
